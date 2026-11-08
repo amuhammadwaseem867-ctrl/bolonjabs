@@ -122,12 +122,16 @@ figure, blockquote { margin: 0; }
 .header {
   position: fixed; inset: 0 0 auto 0; z-index: 100;
   transition: background-color .4s var(--ease), box-shadow .4s var(--ease), padding .4s var(--ease);
-  padding: 22px 0;
+  padding: 10px 0;
   color: #fff;
 }
-.header.is-scrolled { background: rgba(6, 34, 42, .86); backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%); padding: 12px 0; box-shadow: 0 1px 0 var(--line-dark); }
+.header.is-scrolled { background: rgba(6, 34, 42, .86); backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%); padding: 8px 0; box-shadow: 0 1px 0 var(--line-dark); }
 .header__inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .logo { display: inline-flex; align-items: center; gap: 12px; font-family: var(--font-display); font-size: 24px; font-weight: 600; letter-spacing: 0.01em; }
+.logo__img { height: 100px; width: auto; filter: drop-shadow(0 6px 14px rgba(0,0,0,.35)); transition: height .4s var(--ease); }
+.header.is-scrolled .logo__img { height: 66px; }
+.logo--footer .logo__img { height: 170px; }
+.drawer .logo__img { height: 72px; }
 .logo__mark { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--aqua); display: grid; place-items: center; color: var(--aqua); background: rgba(45,212,191,.08); }
 .logo__mark svg { width: 20px; height: 20px; }
 .logo small { display: block; font-family: var(--font-body); font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--aqua); font-weight: 600; margin-top: 2px; }
@@ -420,6 +424,8 @@ figure, blockquote { margin: 0; }
 }
 @media (max-width: 760px) {
   .header .btn { display: none; }
+  .logo__img { height: 78px; }
+  .header.is-scrolled .logo__img { height: 58px; }
   .hero { min-height: auto; }
   .hero__content { padding-top: 130px; }
   .scroll-cue { display: none; }
