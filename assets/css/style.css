@@ -404,37 +404,48 @@ a.hero__card-row:hover { opacity: .85; }
 .promise h3 { font-size: 22px; margin-bottom: 10px; color: #fff; }
 .promise p { color: var(--muted-dark); font-size: 15px; }
 
-/* ---------- Preloader ---------- */
+/* ---------- Preloader: live plumbing system ---------- */
 html.is-loading, html.is-loading body { overflow: hidden; }
 .preloader {
   position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center;
-  background: radial-gradient(1200px 600px at 50% 35%, #0f3d48 0%, var(--ink) 60%);
-  color: #fff; overflow: hidden;
-  /* safety net: never block the page if scripts fail */
-  animation: plFailsafe .6s ease 8s forwards;
+  background:
+    radial-gradient(900px 500px at 50% 40%, rgba(45,212,191,.10), transparent 70%),
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px) 0 0 / 32px 32px,
+    var(--ink);
+  color: #fff;
+  animation: plFailsafe .6s ease 9s forwards; /* never block the page if scripts fail */
 }
 @keyframes plFailsafe { to { opacity: 0; visibility: hidden; } }
 .preloader.is-done { pointer-events: none; }
-.preloader__inner { position: relative; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; padding: 0 24px; }
-.preloader__logo { width: auto; height: 120px; filter: drop-shadow(0 10px 24px rgba(0,0,0,.45)); animation: plFloat 3s ease-in-out infinite; }
+.preloader__inner { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 14px; width: min(860px, 94vw); text-align: center; }
+.preloader__logo { height: 104px; width: auto; filter: drop-shadow(0 10px 24px rgba(0,0,0,.45)); animation: plFloat 3s ease-in-out infinite; }
 @keyframes plFloat { 50% { transform: translateY(-6px); } }
-.preloader__drop { position: relative; width: 92px; height: 118px; }
-.preloader__drop svg { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 0 18px rgba(45,212,191,.35)); }
-.pl-wave { animation: plWave 1.6s linear infinite; }
-.pl-wave--back { animation-duration: 2.4s; animation-direction: reverse; }
-@keyframes plWave { to { transform: translateX(-100px); } }
-.preloader__pct { position: absolute; left: 0; right: 0; top: 58%; text-align: center; font-weight: 700; font-size: 17px; letter-spacing: .02em; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.45); font-variant-numeric: tabular-nums; }
-.preloader__text { font-size: 12px; letter-spacing: .28em; text-transform: uppercase; color: var(--aqua); font-weight: 600; }
-.preloader__bubbles i { position: absolute; bottom: -40px; width: 12px; height: 12px; border-radius: 50%; border: 1px solid rgba(125,211,252,.45); background: rgba(45,212,191,.08); animation: plBubble 6s linear infinite; }
-.preloader__bubbles i:nth-child(1) { left: 8%; animation-delay: 0s; }
-.preloader__bubbles i:nth-child(2) { left: 22%; width: 20px; height: 20px; animation-delay: 1.2s; animation-duration: 7s; }
-.preloader__bubbles i:nth-child(3) { left: 36%; width: 8px; height: 8px; animation-delay: 2.4s; }
-.preloader__bubbles i:nth-child(4) { left: 52%; width: 16px; height: 16px; animation-delay: .6s; animation-duration: 8s; }
-.preloader__bubbles i:nth-child(5) { left: 66%; animation-delay: 3s; }
-.preloader__bubbles i:nth-child(6) { left: 78%; width: 24px; height: 24px; animation-delay: 1.8s; animation-duration: 9s; }
-.preloader__bubbles i:nth-child(7) { left: 90%; width: 10px; height: 10px; animation-delay: 4s; }
-.preloader__bubbles i:nth-child(8) { left: 45%; width: 14px; height: 14px; animation-delay: 5s; animation-duration: 7.5s; }
-@keyframes plBubble { 0% { transform: translateY(0) translateX(0); opacity: 0; } 10% { opacity: 1; } 50% { transform: translateY(-55vh) translateX(14px); } 100% { transform: translateY(-110vh) translateX(-10px); opacity: 0; } }
+.pipes { width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 18px 30px rgba(0,0,0,.35)); }
+.pipe-shell { stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: plDraw 1.1s cubic-bezier(.65,0,.35,1) forwards; }
+.pipe-shine { stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: plDraw 1.1s .15s cubic-bezier(.65,0,.35,1) forwards; }
+@keyframes plDraw { to { stroke-dashoffset: 0; } }
+.pipe-flow { animation: plFlow .6s linear infinite; }
+@keyframes plFlow { to { stroke-dashoffset: -22; } }
+#plWaterPath { filter: drop-shadow(0 0 6px rgba(45,212,191,.6)); }
+.gauge__pct { font: 700 15px/1 var(--font-body); fill: #fff; font-variant-numeric: tabular-nums; }
+.drip { opacity: 0; animation: plDrip 1.4s ease-in infinite; }
+.drip--2 { animation-delay: .7s; }
+@keyframes plDrip { 0% { opacity: 0; transform: translateY(0) scale(.6); } 15% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(150px) scale(.8); } }
+.preloader.is-pouring .drip { display: none; }
+.preloader__text { min-height: 1.2em; font-size: 13px; letter-spacing: .28em; text-transform: uppercase; color: var(--aqua); font-weight: 600; transition: opacity .25s; }
+.preloader__flood {
+  position: absolute; inset: 0; z-index: 3; transform: translateY(102%);
+  background: linear-gradient(180deg, #2dd4bf 0%, #0b7a75 55%, #0b7a75 100%);
+}
+.preloader__flood::before {
+  content: ""; position: absolute; left: 0; right: 0; bottom: calc(100% - 1px); height: 60px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 60' preserveAspectRatio='none'%3E%3Cpath d='M0 30C240 0 480 60 720 30S1200 0 1440 30V60H0Z' fill='%232dd4bf'/%3E%3C/svg%3E") 0 0 / 50% 100% repeat-x;
+  animation: plSurf 1.2s linear infinite;
+}
+@keyframes plSurf { to { background-position: 50% 0; } }
+.preloader:not(.is-pouring) .preloader__flood { visibility: hidden; }
+.preloader__edge { position: absolute; left: 0; top: 100%; width: 100%; height: 90px; z-index: 3; }
 
 /* ---------- Footer ---------- */
 .footer { background: #041a20; color: var(--muted-dark); padding: 80px 0 36px; }
@@ -504,7 +515,7 @@ html.is-loading, html.is-loading body { overflow: hidden; }
   .promises { grid-template-columns: 1fr; }
   .gcard { justify-content: center; text-align: left; }
   .gcard__score strong { font-size: 52px; }
-  .preloader__logo { height: 96px; }
+  .preloader__logo { height: 84px; }
   .faq details p { padding-right: 0; }
   .footer__grid { grid-template-columns: 1fr; }
   .fab { display: flex; }
