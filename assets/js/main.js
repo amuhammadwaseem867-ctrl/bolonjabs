@@ -1,4 +1,4 @@
-/* Bolonjabs Plumbing: interactions & animations
+/* N Maphikana Plumbing: interactions & animations
    - Works without GSAP (content is visible by default; .js-anim only hides reveal targets).
    - Respects prefers-reduced-motion. */
 (function () {
@@ -85,7 +85,7 @@
       }
       // Front-end only: connect to a form service (e.g. Formspree, Netlify Forms) to receive leads.
       status.classList.add('ok');
-      status.textContent = 'Thank you! A Bolonjabs plumber will call you shortly.';
+      status.textContent = 'Thank you! A plumber from N Maphikana Plumbing will call you shortly.';
       form.reset();
     });
     ['name', 'phone'].forEach(function (id) {
