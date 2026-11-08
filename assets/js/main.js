@@ -191,19 +191,20 @@
   var ease = 'power3.out';
 
   // Hero intro
+  var heroImg = document.getElementById('heroImg');
   var tl = gsap.timeline({ paused: true, defaults: { ease: ease } });
-  tl.fromTo('#heroImg', { scale: 1.22 }, { scale: 1.08, duration: 2.2, ease: 'power2.out' }, 0)
-    .from('[data-hero-line]', { yPercent: 110, duration: 1.1, stagger: 0.12 }, 0.2)
-    .from('[data-hero]', { y: 30, opacity: 0, duration: 0.9, stagger: 0.1 }, 0.45)
-    .from('.header', { y: -30, opacity: 0, duration: 0.8 }, 0.3);
+  if (heroImg) tl.fromTo(heroImg, { scale: 1.22 }, { scale: 1.08, duration: 2.2, ease: 'power2.out' }, 0);
+  if (document.querySelector('[data-hero-line]')) tl.from('[data-hero-line]', { yPercent: 110, duration: 1.1, stagger: 0.12 }, 0.2);
+  if (document.querySelector('[data-hero]')) tl.from('[data-hero]', { y: 30, opacity: 0, duration: 0.9, stagger: 0.1 }, 0.45);
+  tl.from('.header', { y: -30, opacity: 0, duration: 0.8 }, 0.3);
   // Play once the preloader has lifted (or immediately if it already has)
   heroPlay = function () { tl.play(); };
   if (preGone) tl.play();
 
   // Hero parallax on scroll
-  gsap.to('#heroImg', {
+  if (heroImg) gsap.to(heroImg, {
     yPercent: 12, ease: 'none',
-    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
+    scrollTrigger: { trigger: heroImg.closest('section'), start: 'top top', end: 'bottom top', scrub: true }
   });
 
   // Generic reveals (batched for smooth staggers)
@@ -253,7 +254,7 @@
   });
 
   // Process line draws as you scroll
-  gsap.fromTo('#processLine', { scaleX: 0 }, {
+  if (document.getElementById('processLine')) gsap.fromTo('#processLine', { scaleX: 0 }, {
     scaleX: 1, ease: 'none',
     scrollTrigger: { trigger: '.process', start: 'top 75%', end: 'bottom 55%', scrub: 0.6 }
   });
