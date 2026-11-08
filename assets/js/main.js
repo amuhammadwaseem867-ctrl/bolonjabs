@@ -15,6 +15,66 @@
   var y = document.getElementById('year');
   if (y) y.textContent = new Date().getFullYear();
 
+  /* ---------- Preloader: water drop fills as the page loads ---------- */
+  var heroPlay = null;   // set by the GSAP section
+  var preGone = false;
+  (function preloader() {
+    var pre = document.getElementById('preloader');
+    if (!pre) { preGone = true; root.classList.remove('is-loading'); return; }
+    var level = document.getElementById('plLevel');
+    var pct = document.getElementById('plPct');
+    var shown = 0, target = 8, loaded = false, finished = false;
+    var start = performance.now();
+    var minTime = reduceMotion ? 300 : 1500;
+
+    var tracked = [].slice.call(document.querySelectorAll('img:not([loading="lazy"])'));
+    var total = tracked.length + 1, done = 0;
+    function bump() { done++; target = Math.max(target, Math.min(92, 8 + (done / total) * 84)); }
+    tracked.forEach(function (img) {
+      if (img.complete) bump();
+      else { img.addEventListener('load', bump, { once: true }); img.addEventListener('error', bump, { once: true }); }
+    });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(bump); else bump();
+    function allLoaded() { loaded = true; target = 100; }
+    if (document.readyState === 'complete') allLoaded(); else window.addEventListener('load', allLoaded);
+    setTimeout(allLoaded, 6000); // never wait longer than this
+
+    function render() {
+      level.setAttribute('transform', 'translate(0 ' + (128 - shown * 1.22).toFixed(2) + ')');
+      pct.textContent = Math.round(shown) + '%';
+    }
+    function tick(now) {
+      shown += (target - shown) * 0.06 + 0.25;
+      if (shown > target) shown = target;
+      render();
+      if (shown >= 100 && loaded && now - start > minTime) return exit();
+      requestAnimationFrame(tick);
+    }
+    function cleanup() {
+      if (pre.parentNode) pre.parentNode.removeChild(pre);
+      if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+    }
+    function exit() {
+      if (finished) return; finished = true;
+      pre.classList.add('is-done');
+      root.classList.remove('is-loading');
+      preGone = true;
+      if (hasGSAP && !reduceMotion) {
+        var g = window.gsap;
+        g.timeline({ onComplete: cleanup })
+          .to('.preloader__inner', { scale: 0.9, opacity: 0, duration: 0.45, ease: 'power2.in' })
+          .to(pre, { clipPath: 'circle(0% at 50% 42%)', duration: 0.9, ease: 'power4.inOut' }, 0.25)
+          .add(function () { if (heroPlay) heroPlay(); }, 0.55);
+      } else {
+        pre.style.transition = 'opacity .35s ease';
+        pre.style.opacity = '0';
+        setTimeout(cleanup, 380);
+      }
+    }
+    if (hasGSAP && !reduceMotion) window.gsap.set(pre, { clipPath: 'circle(150% at 50% 42%)' });
+    requestAnimationFrame(tick);
+  })();
+
   /* ---------- Header state + progress bar ---------- */
   var header = document.getElementById('header');
   var bar = document.getElementById('progressBar');
@@ -101,11 +161,14 @@
   var ease = 'power3.out';
 
   // Hero intro
-  var tl = gsap.timeline({ defaults: { ease: ease } });
+  var tl = gsap.timeline({ paused: true, defaults: { ease: ease } });
   tl.fromTo('#heroImg', { scale: 1.22 }, { scale: 1.08, duration: 2.2, ease: 'power2.out' }, 0)
     .from('[data-hero-line]', { yPercent: 110, duration: 1.1, stagger: 0.12 }, 0.2)
     .from('[data-hero]', { y: 30, opacity: 0, duration: 0.9, stagger: 0.1 }, 0.45)
     .from('.header', { y: -30, opacity: 0, duration: 0.8 }, 0.3);
+  // Play once the preloader has lifted (or immediately if it already has)
+  heroPlay = function () { tl.play(); };
+  if (preGone) tl.play();
 
   // Hero parallax on scroll
   gsap.to('#heroImg', {

@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <script>
     // Enable entrance animations only when motion is allowed (content stays visible otherwise).
+    document.documentElement.classList.add('is-loading');
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-anim');
   </script>
   <script type="application/ld+json">
@@ -40,11 +41,38 @@
       "opens": "00:00",
       "closes": "23:59"
     },
-    "priceRange": "R450+"
+    "priceRange": "R450+",
+    "hasMap": "https://www.google.com/maps/place/?q=place_id:ChIJA0LNvH5TzB0RRniq-S024cQ"
   }
   </script>
 </head>
 <body>
+  <!-- ===================== Preloader ===================== -->
+  <div class="preloader" id="preloader" role="status" aria-label="Loading N Maphikana Plumbing">
+    <div class="preloader__bubbles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="preloader__inner">
+      <img class="preloader__logo" src="assets/img/logo-sm.webp" alt="" width="262" height="176">
+      <div class="preloader__drop" aria-hidden="true">
+        <svg viewBox="0 0 100 128">
+          <defs>
+            <clipPath id="plClip"><path d="M50 6C66 32 90 56 90 84a40 40 0 0 1-80 0C10 56 34 32 50 6Z"/></clipPath>
+            <linearGradient id="plGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7dd3fc"/><stop offset="1" stop-color="#0b7a75"/></linearGradient>
+            <linearGradient id="plStroke" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2dd4bf"/><stop offset="1" stop-color="#ff7a59"/></linearGradient>
+          </defs>
+          <g clip-path="url(#plClip)">
+            <g id="plLevel" transform="translate(0 128)">
+              <path class="pl-wave pl-wave--back" d="M0 8 Q25 0 50 8 T100 8 T150 8 T200 8 V140 H0Z" fill="#2dd4bf" opacity=".45"/>
+              <path class="pl-wave pl-wave--front" d="M0 10 Q25 2 50 10 T100 10 T150 10 T200 10 V140 H0Z" fill="url(#plGrad)"/>
+            </g>
+          </g>
+          <path d="M50 6C66 32 90 56 90 84a40 40 0 0 1-80 0C10 56 34 32 50 6Z" fill="none" stroke="url(#plStroke)" stroke-width="3"/>
+          <path d="M28 86a20 20 0 0 0 14 18" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <span class="preloader__pct" id="plPct">0%</span>
+      </div>
+      <p class="preloader__text">Turning on the taps…</p>
+    </div>
+  </div>
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
 
@@ -112,16 +140,16 @@
             </div>
           </div>
           <aside class="hero__card glass" data-hero aria-label="Why customers choose us">
-            <div class="hero__card-row">
-              <div class="hero__avatars" aria-hidden="true"><span>TM</span><span>LN</span><span>JP</span></div>
+            <a class="hero__card-row" href="https://www.google.com/maps/place/?q=place_id:ChIJA0LNvH5TzB0RRniq-S024cQ" target="_blank" rel="noopener">
+              <span class="g-badge"><svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg></span>
               <div>
-                <div class="stars" aria-label="Rated 4.9 out of 5">★★★★★</div>
-                <p><strong>4.9 / 5</strong> from 1,200+ homeowners</p>
+                <div class="stars" aria-label="Rated 5.0 out of 5 on Google">★★★★★</div>
+                <p><strong>5.0</strong> rating on Google</p>
               </div>
-            </div>
+            </a>
             <dl class="hero__stats">
-              <div><dt>Avg. arrival</dt><dd>60 min</dd></div>
               <div><dt>Open</dt><dd>24 / 7</dd></div>
+              <div><dt>Services</dt><dd>8 types</dd></div>
             </dl>
             <p class="live"><i aria-hidden="true"></i>Plumbers on call right now</p>
           </aside>
@@ -148,7 +176,7 @@
         <div class="about">
           <div class="about__media" data-reveal>
             <div class="about__img"><img data-parallax src="assets/img/plumber-on-site.webp" alt="N Maphikana plumber installing pipework on site" width="1024" height="683" loading="lazy"></div>
-            <div class="about__badge"><strong>15+</strong><span>years of trusted craftsmanship</span></div>
+            <div class="about__badge"><strong>5.0★</strong><span>rated on Google by our customers</span></div>
           </div>
           <div class="about__copy">
             <span class="eyebrow" data-reveal>Who we are</span>
@@ -166,10 +194,10 @@
         </div>
 
         <div class="counters">
-          <div class="counter" data-reveal><strong><span data-count="15">15</span>+</strong><span>Years in business</span></div>
-          <div class="counter" data-reveal><strong><span data-count="12000">12,000</span>+</strong><span>Jobs completed</span></div>
-          <div class="counter" data-reveal><strong><span data-count="60">60</span></strong><span>Minute average arrival</span></div>
-          <div class="counter" data-reveal><strong><span data-count="4.9" data-decimals="1">4.9</span></strong><span>Average customer rating</span></div>
+          <div class="counter" data-reveal><strong><span data-count="24">24</span>h</strong><span>Open every day</span></div>
+          <div class="counter" data-reveal><strong><span data-count="7">7</span></strong><span>Days a week, incl. holidays</span></div>
+          <div class="counter" data-reveal><strong><span data-count="8">8</span></strong><span>Plumbing services</span></div>
+          <div class="counter" data-reveal><strong><span data-count="5" data-decimals="1">5.0</span>★</strong><span>Google rating</span></div>
         </div>
       </div>
     </section>
@@ -366,34 +394,35 @@
       </div>
     </section>
 
-    <!-- ===================== Testimonials ===================== -->
-    <!-- NOTE: sample placeholder reviews; replace with real, verified customer reviews before launch. -->
+    <!-- ===================== Google rating & promises ===================== -->
     <section class="section section--dark" id="reviews">
       <div class="container">
         <div class="section-head section-head--center">
-          <span class="eyebrow" data-reveal>Testimonials</span>
-          <h2 data-reveal>Loved by <em>homeowners.</em></h2>
+          <span class="eyebrow" data-reveal>Reviews</span>
+          <h2 data-reveal>Rated <em>5.0 on Google.</em></h2>
+          <p data-reveal>Read what our customers say about us on Google, and if we've helped you, we'd love your review.</p>
+        </div>
+        <div class="gcard glass" data-reveal>
+          <div class="gcard__score">
+            <span class="g-badge g-badge--lg"><svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg></span>
+            <div>
+              <strong>5.0</strong>
+              <div class="stars stars--lg" aria-label="5.0 out of 5 stars">★★★★★</div>
+              <span>N Maphikana Plumbing on Google</span>
+            </div>
+          </div>
+          <div class="gcard__actions">
+            <a class="btn btn--gold" href="https://www.google.com/maps/place/?q=place_id:ChIJA0LNvH5TzB0RRniq-S024cQ" target="_blank" rel="noopener">Read our Google reviews</a>
+            <a class="btn btn--ghost" href="https://search.google.com/local/writereview?placeid=ChIJA0LNvH5TzB0RRniq-S024cQ" target="_blank" rel="noopener">Leave a review</a>
+          </div>
+        </div>
+        <div class="promises">
+          <article class="promise" data-reveal><span class="promise__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7v5l3 2"/></svg></span><h3>Open 24 hours, 7 days</h3><p>Day, night, weekends and public holidays. Call or WhatsApp 073 430 2133 any time.</p></article>
+          <article class="promise" data-reveal><span class="promise__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6M9 11h6M9 15h3M6 3h12a1 1 0 011 1v16l-3-2-3 2-3-2-3 2V4a1 1 0 011-1z"/></svg></span><h3>Quote before we start</h3><p>You get a price in Rand based on what you need before any work begins.</p></article>
+          <article class="promise" data-reveal><span class="promise__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l7 3v6c0 4.4-3 7.9-7 9-4-1.1-7-4.6-7-9V6l7-3z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/></svg></span><h3>Work done properly</h3><p>Geysers installed to SANS 10252, with a Certificate of Compliance where required.</p></article>
+          <article class="promise" data-reveal><span class="promise__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 20l6-6M14 4l6 6-8 8H6v-6l8-8z"/></svg></span><h3>We clean up after</h3><p>Every job is tested and your home is left clean and tidy when we leave.</p></article>
         </div>
       </div>
-      <div class="reviews" id="reviewsBox">
-        <div class="reviews__track">
-          <figure class="review"><div class="stars" aria-label="5 stars">★★★★★</div><blockquote>"Our geyser burst at 11pm. They were here within the hour and handled the whole insurance claim for us."</blockquote><figcaption><i>A</i><div><strong>Customer name</strong><span>Suburb</span></div></figcaption></figure>
-          <figure class="review"><div class="stars" aria-label="5 stars">★★★★★</div><blockquote>"The quote was exactly what we paid. Professional, tidy and genuinely friendly people."</blockquote><figcaption><i>B</i><div><strong>Customer name</strong><span>Suburb</span></div></figcaption></figure>
-          <figure class="review"><div class="stars" aria-label="5 stars">★★★★★</div><blockquote>"They redid our main bathroom and it looks like a five-star hotel. Worth every Rand."</blockquote><figcaption><i>C</i><div><strong>Customer name</strong><span>Suburb</span></div></figcaption></figure>
-          <figure class="review"><div class="stars" aria-label="5 stars">★★★★★</div><blockquote>"Found a hidden leak under our slab without breaking up the whole floor. Brilliant."</blockquote><figcaption><i>D</i><div><strong>Customer name</strong><span>Suburb</span></div></figcaption></figure>
-          <figure class="review"><div class="stars" aria-label="5 stars">★★★★★</div><blockquote>"Switched us to a heat pump and our electricity bill dropped noticeably. Great advice."</blockquote><figcaption><i>E</i><div><strong>Customer name</strong><span>Suburb</span></div></figcaption></figure>
-          <!-- duplicate set for seamless loop -->
-          <figure class="review" aria-hidden="true"><div class="stars">★★★★★</div><blockquote>"Our geyser burst at 11pm. They were here within the hour and handled the whole insurance claim for us."</blockquote><figcaption><i>A</i><div><strong>Customer name</strong><span>Suburb</span></div></figcaption></figure>
-          <figure class="review" aria-hidden="true"><div class="stars">★★★★★</div><blockquote>"The quote was exactly what we paid. Professional, tidy and genuinely friendly people."</blockquote><figcaption><i>B</i><div><strong>Customer name</strong><span>Suburb</span></div></figcaption></figure>
-          <figure class="review" aria-hidden="true"><div class="stars">★★★★★</div><blockquote>"They redid our main bathroom and it looks like a five-star hotel. Worth every Rand."</blockquote><figcaption><i>C</i><div><strong>Customer name</strong><span>Suburb</span></div></figcaption></figure>
-          <figure class="review" aria-hidden="true"><div class="stars">★★★★★</div><blockquote>"Found a hidden leak under our slab without breaking up the whole floor. Brilliant."</blockquote><figcaption><i>D</i><div><strong>Customer name</strong><span>Suburb</span></div></figcaption></figure>
-          <figure class="review" aria-hidden="true"><div class="stars">★★★★★</div><blockquote>"Switched us to a heat pump and our electricity bill dropped noticeably. Great advice."</blockquote><figcaption><i>E</i><div><strong>Customer name</strong><span>Suburb</span></div></figcaption></figure>
-        </div>
-      </div>
-      <button class="reviews-pause" id="reviewsPause" type="button" aria-pressed="false">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
-        <span>Pause reviews</span>
-      </button>
     </section>
 
     <!-- ===================== FAQ ===================== -->
